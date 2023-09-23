@@ -1,0 +1,23 @@
+default: &default
+  adapter: postgresql
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 10 } %>
+  timeout: 5000
+  port: 5432
+
+development:
+  <<: *default
+  database: twiiter_development
+  username: postgres
+  host: postgres
+
+test:
+  <<: *default
+  database: twiiter_test
+  username: postgres
+  host: postgres
+
+production:
+  <<: *default
+  database: twiiter_production
+  username: postgres
+  host: postgres

@@ -1,0 +1,38 @@
+version: "3.4"
+
+services:
+  twitter_app:
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+    image: twitter_app
+    container_name: twitter_app
+    ports:
+      - "3000:3000"
+    networks:
+      - twitter_app_network
+
+  twitter_webserver:
+    build:
+      context: .
+      dockerfile: docker/web/Dockerfile
+    image: twitter_web
+    container_name: twitter_webserver
+    ports:
+      - "8080:8080"
+    networks:
+      - twitter_app_network
+
+  postgres:
+    image: postgres:13.3
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
+    networks:
+      - twitter_app_network
+
+networks:
+  twitter_app_network:
+    driver: bridge
